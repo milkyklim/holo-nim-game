@@ -31,9 +31,8 @@ impl Move {
     pub fn is_valid(&self, game: Game, game_state: GameState) -> Result<(), String> {
         // <<DEVCAMP-TODO>> Check if a move is valid given the current game and its state
         is_players_turn(self.author.clone(), &game, &game_state)?; // early return with error
-        match self.move_type {
+        match &self.move_type {
             MoveType::Place{ pos } => {
-
                 // let pos = Piece { pile, n };
                 pos.is_in_bounds()?;
                 pos.is_allowed_number()?;
