@@ -25,8 +25,8 @@ use hdk::{
 
 // This is where you would import your own game State, MoveType and state_reducer
 
-mod your_game;
-pub use your_game::{
+mod nim;
+pub use nim::{
     GameState,
     MoveType,
 };

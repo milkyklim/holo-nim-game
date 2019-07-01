@@ -71,6 +71,22 @@ impl GameState {
     pub fn render(&self) -> String {
         // <<DEVCAMP>> return a pretty formatting string representation
         "".to_string()
+        // let mut disp = "\n".to_string();
+
+        // if let Some(last_move) = self.moves.last() {
+        //     if last_move.author.to_string() == AGENT_ADDRESS.to_string() {
+        //         disp.push_str("It is your opponents turn \n");
+        //     } else {
+        //         disp.push_str("It is your turn \n");
+        //     }
+        // } else {
+        //     disp.push_str("Non-creator must make the first move \n");        
+        // }
+
+        // disp.push('\n');
+
+        // let board = board_restore(self);
+
     }
 
     pub fn evolve(&self, game: Game, next_move: &Move) -> Self {
