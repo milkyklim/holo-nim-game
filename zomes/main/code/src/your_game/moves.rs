@@ -26,8 +26,17 @@ impl MoveType {
 	}
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
+// #[derive(Clone, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
+#[derive(Clone, Copy, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
 pub struct Piece {
     pub pile: usize,
     pub n: usize,
 }
+
+// TODO: seems like this one is useless 
+// if I properly rewrite code - not
+// impl PartialEq for Piece {
+//     fn eq(&self, other: &Self) -> bool {
+//         self.pile == other.pile && self.n == other.n
+//     }
+// }

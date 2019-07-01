@@ -7,11 +7,12 @@ use super::{
     MoveType,
     state::{
         BOARD_SIZE,
-        // board_sparse_to_dense, 
+        FINAL_POSITION,
+        board_restore,
     },
 };
-use crate::your_game::MoveType;
-use hdk::holochain_core_types::cas::content::Address;
+
+use hdk::holochain_persistence_api::cas::content::Address;
 
 /**
  *
@@ -31,8 +32,9 @@ impl Move {
         // <<DEVCAMP-TODO>> Check if a move is valid given the current game and its state
         is_players_turn(self.author.clone(), &game, &game_state)?; // early return with error
         match self.move_type {
-            MoveType::Place{ pile, n } => {
-                let pos = Piece { pile, n };
+            MoveType::Place{ pos } => {
+
+                // let pos = Piece { pile, n };
                 pos.is_in_bounds()?;
                 pos.is_allowed_number()?;
                 pos.is_not_empty(&game_state)?;
@@ -44,19 +46,19 @@ impl Move {
 
 // HELPER FUNCTIONS
 
-pub enum Player {
-    Player1, 
-    Player2, 
-}
+// pub enum Player {
+//     Player1, 
+//     Player2, 
+// }
 
-pub fn get_current_player(game: &game, player_address: &Address) -> Result<Player, String> {
-    match (player_address == &game.player_1, player_address == &game.player_2) {
-        (true, false) => Ok(Player::Player1),
-        (false, true) => Ok(Player::Player2),
-        (true, true) => return Err("Player cannot play themselves".into()),
-        (false, false) => return Err("Player is not part of this game!".into()),
-    }
-}
+// pub fn _get_current_player(game: &Game, player_address: &Address) -> Result<Player, String> {
+//     match (player_address == &game.player_1, player_address == &game.player_2) {
+//         (true, false) => Ok(Player::Player1),
+//         (false, true) => Ok(Player::Player2),
+//         (true, true) => return Err("Player cannot play themselves".into()),
+//         (false, false) => return Err("Player is not part of this game!".into()),
+//     }
+// }
 
 
 fn is_players_turn(player: Address, game: &Game, game_state: &GameState) -> Result<(), String> {
@@ -79,17 +81,9 @@ fn is_players_turn(player: Address, game: &Game, game_state: &GameState) -> Resu
     }
 }
 
-// TODO: seems like this one is useless 
-// if I properly rewrite code - not
-impl PartialEq for Piece {
-    fn eq(&self, other: &Self) -> bool {
-        self.pile == other.pile && self.n == other.n
-    }
-}
-
 impl Piece {
     pub fn is_in_bounds(&self) -> Result<(), String> {
-        if self.pile >= 0 && self.pile < BOARD_SIZE {
+        if self.pile != 0 && self.pile < BOARD_SIZE {
             Ok(())
         } else {
             Err("Piece is not in bounds".into())
