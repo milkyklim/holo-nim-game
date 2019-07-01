@@ -1,6 +1,6 @@
 [[dnas]]
 id = "game-dna"
-file = "./dist/holo-nim-game.dna.json"
+file = "./dist/nim.dna.json"
 hash = "QmDontCheck"
 
 
