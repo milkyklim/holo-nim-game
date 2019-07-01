@@ -82,7 +82,7 @@ fn is_players_turn(player: Address, game: &Game, game_state: &GameState) -> Resu
 
 impl Piece {
     pub fn is_in_bounds(&self) -> Result<(), String> {
-        if self.pile != 0 && self.pile < BOARD_SIZE {
+        if self.pile < BOARD_SIZE {
             Ok(())
         } else {
             Err("Piece is not in bounds".into())
