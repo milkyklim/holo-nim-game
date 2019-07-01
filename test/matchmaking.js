@@ -4,7 +4,7 @@ module.exports = (scenario) => {
         bob
     }) => {
         const address = await alice.callSync("main", "create_proposal", {
-            message: "Wanna play? "
+            message: "Wanna play?"
         })
         t.equal(address.Ok.length, 46, "Proposal was created successfully")
 

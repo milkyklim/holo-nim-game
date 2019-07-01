@@ -31,9 +31,9 @@ const diorama = new Diorama({
 // uncomment one of these
 // require('./tictactoe')(diorama.registerScenario)
 // require('./checkers')(diorama.registerScenario)
-// require('./your_game')(diorama.registerScenario)
+require('./nim')(diorama.registerScenario)
 
 // test the matchmaking 
-require('./matchmaking')(diorama.registerScenario)
+// require('./matchmaking')(diorama.registerScenario)
 
 diorama.run()
