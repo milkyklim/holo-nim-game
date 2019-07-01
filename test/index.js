@@ -34,6 +34,6 @@ const diorama = new Diorama({
 require('./nim')(diorama.registerScenario)
 
 // test the matchmaking 
-// require('./matchmaking')(diorama.registerScenario)
+require('./matchmaking')(diorama.registerScenario)
 
 diorama.run()
