@@ -71,6 +71,21 @@ module.exports = (scenario) => {
         // both agents should see the same game state
         t.deepEqual(await getState(bob, game_address), await getState(alice, game_address), "Alice and Bob both see the same game state")
 
+        await makeMove(alice, {
+            game: game_address,
+            timestamp: 3,
+            move_type: {
+                Place: {
+                    pos: {
+                        pile: 2,
+                        n: 7
+                    }
+                }
+            },
+        })
+
+        t.equal(lastResult().Ok, undefined, "There was error! Too many pieces")
+
         // finally print all the outputs
         results.forEach((result, i) => {
             console.log(`${i}: ${JSON.stringify(result, null, 2)}\n`)
