@@ -2,13 +2,6 @@ use hdk::holochain_json_api::{
     error::JsonError, json::JsonString,
 };
 
-/**
- *
- * The MoveType enum defines all the types of moves that are valid in your game and the 
- * data they carry. In Checkers you can move a piece (MovePiece) from a location to another location.
- *
- */
-
 #[derive(Clone, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
 pub enum MoveType {
     // <<DEVCAMP-TODO>> YOUR MOVE ENUM VARIENTS HERE
@@ -26,7 +19,6 @@ impl MoveType {
 	}
 }
 
-// #[derive(Clone, Copy, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
 #[derive(Clone, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
 pub struct Piece {
     pub pile: usize,

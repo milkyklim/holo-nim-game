@@ -19,23 +19,9 @@ pub const _PIECE: char = 'x';
 // final state of the game
 pub const FINAL_POSITION: [usize; 3] = [3, 4, 5];
 
-/**
- *
- * As a game author you get to decide what the State object of your game looks like.
- * Most of the time you want it to include all of the previous moves as well.
- * 
- * To customize the game state implement your own GameState struct. This must have a function called `initial()`
- * which returns the initial state.
- *
- */
-
-
 #[derive(Clone, Debug, Serialize, Deserialize, DefaultJson)]
 pub struct GameState {
-    // <<DEVCAMP-TODO>>
     pub moves: Vec<Move>,
-    // Implement your own game state
-    // May be helpful to split this into state for each player
     pub player_1: PlayerState,
     pub player_2: PlayerState,
 }
@@ -57,10 +43,8 @@ impl PlayerState {
     }
 }
 
-
 impl GameState {
     pub fn initial() -> Self {
-        // <<DEVCAMP>> return an initial state of a game
         GameState {
             moves: Vec::new(),
             player_1: PlayerState::initial(),
@@ -90,10 +74,6 @@ impl GameState {
     }
 
     pub fn evolve(&self, game: Game, next_move: &Move) -> Self {
-        // <<DEVCAMP>>
-        // given a current state, a game and a move, compute the next state
-        // You can assume all moves are valid
-
         // let current_player = get_current_player(&game, &next_move.author).unwrap();
         
         // let mut moves = self.moves.clone();
