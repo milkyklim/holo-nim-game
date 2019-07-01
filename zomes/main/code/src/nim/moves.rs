@@ -26,8 +26,8 @@ impl MoveType {
 	}
 }
 
-// #[derive(Clone, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
-#[derive(Clone, Copy, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
+// #[derive(Clone, Copy, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
+#[derive(Clone, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
 pub struct Piece {
     pub pile: usize,
     pub n: usize,
