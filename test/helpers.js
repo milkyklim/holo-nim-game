@@ -15,10 +15,10 @@ module.exports = {
         results.push(result)
         return result
     },
-    createGame: async (agent, opponent) => {
+    createGame: async (agent, opponent, ts = 0) => {
         const result = await agent.callSync("main", "create_game", {
             opponent: opponent.agentId,
-            timestamp: 0
+            timestamp: ts
         })
         results.push(result)
         return result.Ok

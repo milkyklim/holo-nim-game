@@ -32,7 +32,7 @@ module.exports = (scenario) => {
 
         t.notEqual(lastResult().Ok, undefined, "Bob made the first move")
 
-        // await renderState(alice, game_address)
+        await renderState(alice, game_address)
 
         await makeMove(alice, {
             game: game_address,
@@ -48,7 +48,7 @@ module.exports = (scenario) => {
         })
         t.notEqual(lastResult().Ok, undefined, "Alice made the second move")
 
-        // await renderState(alice, game_address)
+        await renderState(alice, game_address)
 
         await makeMove(bob, {
             game: game_address,
@@ -63,6 +63,8 @@ module.exports = (scenario) => {
             },
         })
         t.notEqual(lastResult().Ok, undefined, "Bob made the third move")
+
+        await renderState(alice, game_address)
 
         let state = await getState(alice, game_address)
 
@@ -86,6 +88,73 @@ module.exports = (scenario) => {
 
         t.equal(lastResult().Ok, undefined, "There was error! Too many pieces")
 
+        // finally print all the outputs
+        results.forEach((result, i) => {
+            console.log(`${i}: ${JSON.stringify(result, null, 2)}\n`)
+        })
+    });
+    scenario("There is a winner in nim game", async (s, t, {
+        alice,
+        bob
+    }) => {
+        let game_address = await createGame(alice, bob, ts = 224)
+        t.equal(game_address.length, 46, "Proposal was created successfully")
+
+        // agent 2 must go first
+        await makeMove(bob, {
+            game: game_address,
+            timestamp: 225,
+            move_type: {
+                Place: {
+                    pos: {
+                        pile: 0,
+                        n: 3
+                    }
+                }
+            },
+        })
+
+        t.notEqual(lastResult().Ok, undefined, "Bob made the first move")
+
+        await renderState(alice, game_address)
+
+        await makeMove(alice, {
+            game: game_address,
+            timestamp: 226,
+            move_type: {
+                Place: {
+                    pos: {
+                        pile: 2,
+                        n: 5
+                    }
+                }
+            },
+        })
+
+        t.notEqual(lastResult().Ok, undefined, "Alice made the second move")
+        await renderState(bob, game_address)
+
+        await makeMove(bob, {
+            game: game_address,
+            timestamp: 227,
+            move_type: {
+                Place: {
+                    pos: {
+                        pile: 1,
+                        n: 4
+                    }
+                }
+            },
+        })
+
+        t.notEqual(lastResult().Ok, undefined, "Bob made the third move")
+        await renderState(alice, game_address)
+
+        let state = await getState(alice, game_address)
+        t.equal(state.Ok.player_2.winner, true, "Bob won the game!")
+
+        // both agents should see the same game state
+        t.deepEqual(await getState(bob, game_address), await getState(alice, game_address), "Alice and Bob both see the same game state")
         // finally print all the outputs
         results.forEach((result, i) => {
             console.log(`${i}: ${JSON.stringify(result, null, 2)}\n`)
