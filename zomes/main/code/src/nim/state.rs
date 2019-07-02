@@ -68,15 +68,14 @@ impl GameState {
         }
 
         disp.push('\n');
-        disp.push_str("  x  0 1 2\ny\n");
+        disp.push_str("  p  0 1 2\nn\n");
 
         let board = board_restore_visual(&self);
-        // disp.push_str(&format!("{:?}|", board));
 
-        for y in 0..5 {
-            disp.push_str(&format!("{}   |", 5 - 1 - y));
+        for y in 0..BOARD_HEIGHT {
+            disp.push_str(&format!("{}   |", BOARD_HEIGHT - 1 - y));
             for x in 0..BOARD_WIDTH {
-                let c = match board[y][x] {
+                let c = match board[BOARD_HEIGHT - 1 - y][x] {
                     0 => EMPTY_SPACE,
                     _ => PIECE,
                 };
@@ -85,21 +84,19 @@ impl GameState {
             disp.push('\n');
         }
 
-        // if self.player_1.resigned {
-        //     disp.push_str(&format!("Game over: Player 1 has resigned!\n"));
-        // } else if self.player_2.resigned {
-        //     disp.push_str(&format!("Game over: Player 2 has resigned!\n"));
-        // } else if self.player_1.winner {
-        //     disp.push_str(&format!("Game over: Player 1 is the winner!\n"));
-        // } else if self.player_2.winner {
-        //     disp.push_str(&format!("Game over: Player 2 is the winner!\n"));
-        // }
+        if self.player_1.resigned {
+            disp.push_str(&format!("Game over: Player 1 has resigned!\n"));
+        } else if self.player_2.resigned {
+            disp.push_str(&format!("Game over: Player 2 has resigned!\n"));
+        } else if self.player_1.winner {
+            disp.push_str(&format!("Game over: Player 1 is the winner!\n"));
+        } else if self.player_2.winner {
+            disp.push_str(&format!("Game over: Player 2 is the winner!\n"));
+        }
         disp
     }
 
-    pub fn evolve(&self, game: Game, next_move: &Move) -> Self {
-        // let current_player = get_current_player(&game, &next_move.author).unwrap();
-        
+    pub fn evolve(&self, game: Game, next_move: &Move) -> Self {        
         let mut moves = self.moves.clone();
         moves.push(next_move.to_owned());
 
@@ -125,8 +122,6 @@ impl GameState {
                     true => player_1_pieces.push(pos.clone()),
                     false => player_2_pieces.push(pos.clone()),
                 };
-
-                // board_restore_visual(&self);
 
                 GameState{
                     player_1: PlayerState {
