@@ -16,6 +16,7 @@ use super::{
 
 pub const EMPTY_SPACE: char = ' ';
 pub const PIECE: char = 'x';
+pub const BLOCKED_PIECE: char = '▓';
 // final state of the game
 pub const FINAL_POSITION: [usize; 3] = [3, 4, 5];
 pub const BOARD_WIDTH: usize = 3;
@@ -77,6 +78,7 @@ impl GameState {
             for x in 0..BOARD_WIDTH {
                 let c = match board[BOARD_HEIGHT - 1 - y][x] {
                     0 => EMPTY_SPACE,
+                    2 => BLOCKED_PIECE,
                     _ => PIECE,
                 };
                 disp.push_str(&format!("{}|", c));
@@ -176,5 +178,13 @@ pub fn board_restore_visual(state: &GameState) -> [[usize; BOARD_WIDTH]; BOARD_H
             board[y][x] = 1;
         }
     }
+
+    // fill in places that unavailable
+    for x in 0..BOARD_WIDTH {
+        for y in FINAL_POSITION[x]..BOARD_HEIGHT{
+            board[y][x] = 2;
+        }
+    }
+
     board
 }
