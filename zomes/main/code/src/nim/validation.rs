@@ -6,7 +6,7 @@ use super::{
     moves::Piece,
     MoveType,
     state::{
-        BOARD_SIZE,
+        BOARD_WIDTH,
         FINAL_POSITION,
         board_restore,
     },
@@ -16,11 +16,11 @@ use hdk::holochain_persistence_api::cas::content::Address;
 
 impl Move {
     pub fn is_valid(&self, game: Game, game_state: GameState) -> Result<(), String> {
-        // <<DEVCAMP-TODO>> Check if a move is valid given the current game and its state
         is_players_turn(self.author.clone(), &game, &game_state)?; // early return with error
         match &self.move_type {
             MoveType::Place{ pos } => {
                 // let pos = Piece { pile, n };
+                // TODO: ADD THE CASE THAT THE CORRECT USER IS PLAYING
                 pos.is_in_bounds()?;
                 pos.is_allowed_number()?;
                 pos.is_not_empty(&game_state)?;
@@ -69,7 +69,7 @@ fn is_players_turn(player: Address, game: &Game, game_state: &GameState) -> Resu
 
 impl Piece {
     pub fn is_in_bounds(&self) -> Result<(), String> {
-        if self.pile < BOARD_SIZE {
+        if self.pile < BOARD_WIDTH {
             Ok(())
         } else {
             Err("Piece is not in bounds".into())

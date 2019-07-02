@@ -4,7 +4,6 @@ use hdk::holochain_json_api::{
 
 #[derive(Clone, Debug, Serialize, Deserialize, DefaultJson, PartialEq)]
 pub enum MoveType {
-    // <<DEVCAMP-TODO>> YOUR MOVE ENUM VARIENTS HERE
 	Place { 
 		pos: Piece,
 	}
@@ -12,7 +11,6 @@ pub enum MoveType {
 
 impl MoveType {
 	pub fn describe() -> Vec<MoveType> {
-		// <<DEVCAMP-TODO>> SHOULD RETURN AN EXAMPLE OF EACH VARIENT
 		vec![
 			MoveType::Place{pos: Piece{pile:0, n: 1}}
 		]
