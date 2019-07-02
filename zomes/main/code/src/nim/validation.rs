@@ -16,11 +16,11 @@ use hdk::holochain_persistence_api::cas::content::Address;
 
 impl Move {
     pub fn is_valid(&self, game: Game, game_state: GameState) -> Result<(), String> {
+        is_playing(&self.author.clone(), &game)?;
         is_players_turn(self.author.clone(), &game, &game_state)?; // early return with error
         match &self.move_type {
             MoveType::Place{ pos } => {
                 // let pos = Piece { pile, n };
-                // TODO: ADD THE CASE THAT THE CORRECT USER IS PLAYING
                 pos.is_in_bounds()?;
                 pos.is_allowed_number()?;
                 pos.is_not_empty(&game_state)?;
@@ -46,7 +46,6 @@ impl Move {
 //     }
 // }
 
-
 fn is_players_turn(player: Address, game: &Game, game_state: &GameState) -> Result<(), String> {
     let moves = &game_state.moves;
     match moves.last() {
@@ -66,6 +65,17 @@ fn is_players_turn(player: Address, game: &Game, game_state: &GameState) -> Resu
         }
     }
 }
+
+// check that player is part of the game
+fn is_playing(player_address: &Address, game: &Game) -> Result<(), String> {
+    match (player_address == &game.player_1, player_address == &game.player_2) {
+        (true, false) => Ok(()),
+        (false, true) => Ok(()),
+        (true, true) => Err("Player cannot play themselves".into()),
+        (false, false) => Err("Player is not part of this game!".into()),
+    }
+}
+
 
 impl Piece {
     pub fn is_in_bounds(&self) -> Result<(), String> {
